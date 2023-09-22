@@ -1,3 +1,5 @@
+//PCAP API를 사용하여 TCP Packet Header 정보를 출력하는 프로그램
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <pcap.h>
