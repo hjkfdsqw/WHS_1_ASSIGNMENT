@@ -59,43 +59,7 @@ struct tcpheader {
     u_short tcp_urp;                 /* urgent pointer */
 };
 
-void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
-{
-    
-    //우리가 사용할 구조체의 포인터 변수를 선언하고 내부의 데이터에 접근하여 원하는 
-    //결과를 도출해낼 수 있다.
-
-    struct ethheader *eth = (struct ethheader *)packet;
-    //mac주소를 출력하기 위한 코드로 mac주소는 6비트로 이루어져 있어 
-    //index가 0~5까지 존재한다.
-    printf("Source MAC Address: %02x:%02x:%02x:%02x:%02x:%02x\n",
-       eth->ether_shost[0], eth->ether_shost[1], eth->ether_shost[2],
-       eth->ether_shost[3], eth->ether_shost[4], eth->ether_shost[5]);
-
-    printf("Destination MAC Address: %02x:%02x:%02x:%02x:%02x:%02x\n",
-       eth->ether_dhost[0], eth->ether_dhost[1], eth->ether_dhost[2],
-       eth->ether_dhost[3], eth->ether_dhost[4], eth->ether_dhost[5]);
-    
-
-    if (ntohs(eth->ether_type) == 0x0800) { // 0x0800 is IP type,IPv4를 나타낸다
-        struct ipheader *ip = (struct ipheader *)(packet + sizeof(struct ethheader));
-
-        if (ip->iph_protocol == IPPROTO_TCP) { // Check if it's a TCP packet
-            struct tcpheader *tcp = (struct tcpheader *)(packet + sizeof(struct ethheader) + sizeof(struct ipheader));
-            
-            // "->" : 참조 연산자로 구조체 포인터를 사용하여 구조체 내부의 변수에 접근하는데 사용된다.
-            //따라서 원하는 정보를 얻을 수 있다.
-
-            printf("From: %s\n", inet_ntoa(ip->iph_sourceip));
-            printf("To: %s\n", inet_ntoa(ip->iph_destip));
-            //i
-
-            printf("TCP Source Port: %d\n", ntohs(tcp->tcp_sport));
-            printf("TCP Destination Port: %d\n", ntohs(tcp->tcp_dport));
-            
-            printf("This is Assignment!!!\n");// 이거 과제임...
-            printf("Message length: %d\n", ntohs(ip->iph_len) - (ip->iph_ihl << 2));
-            //문자 및 기호까지 19개, 문자열의 마지막 null까지 총 길이 20 출력
+void got_packet(정
             
 
             /* determine protocol */
